@@ -1,6 +1,9 @@
+l![Maintenance](https://img.shields.io/maintenance/yes/2021)
+[![Website shields.io](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://todo-vue-live.herokuapp.com/)
+
 ## Todo Vue
 
-**TodoVue** is a simplistic todo application designed to provide me with basic understanding of using VueJS. The application uses NodeJS for the backend and MongoDB for the Database. You can find it deployed [here](#).
+**TodoVue** is a simplistic todo application designed to provide me with basic understanding of using VueJS. The application uses NodeJS for the backend and MongoDB for the Database. You can find it deployed [here](https://todo-vue-live.herokuapp.com/).
 
 ## Features
 

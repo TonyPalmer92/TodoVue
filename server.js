@@ -1,48 +1,52 @@
 require("dotenv").config();
 const express = require("express");
-const helmet = require('helmet')
-const morgan = require('morgan')
+const helmet = require("helmet");
 const bodyParser = require("body-parser");
-const cors = require('cors');
+const cors = require("cors");
 const database = require("./config/database");
 
-const app = express()
+// Array of custom middleware, order is important!
+const middleware = [
+  require("./middleware/notFound"),
+  require("./middleware/errorHandler")
+]
+
+const app = express();
 
 // DB connection
-database()
-
+database();
 
 // Cors Middlewware
-app.use(cors())
+app.use(cors());
 // Security Middleware
-app.use(helmet({
-  contentSecurityPolicy: false,
-}));
-// Logger Middleware
-app.use(morgan('common'))
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({
-  extended: false
-}))
+app.use(
+  bodyParser.urlencoded({
+    extended: false,
+  })
+);
 // parse application/json
-app.use(bodyParser.json())
-
-
+app.use(bodyParser.json());
 
 // Define API/Middleware
-app.use('/api/v1', require('./api/index'))
+app.use("/api/v1", require("./api/index"));
 
 // Serve static files in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(__dirname + '/client/dist/'))
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(__dirname + "/client/dist/"));
   app.get(/.*/, (req, res) => {
-    res.sendFile(__dirname + '/client/dist/index.html')
-  })
+    res.sendFile(__dirname + "/client/dist/index.html");
+  });
 }
 
-app.use(require('./middleware/notFound'))
-app.use(require('./middleware/errorHandler'))
+// loop over custom middleware array & init
+middleware.forEach(mware => app.use(mware))
 
 
-const PORT = process.env.PORT || 5050
-app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`))
+const PORT = process.env.PORT || 5060;
+app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`));

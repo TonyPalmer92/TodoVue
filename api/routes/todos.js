@@ -9,20 +9,22 @@ route: /api/v1/todo
 
 
 // GET
-router.get('/', async (req, res) => {
+router.get('/', async (req, res, next) => {
   try {
     const todos = await Todo.find({}).sort({
       timestamp: -1
     })
+
     res.send(todos)
+
   } catch (error) {
-    console.log('GET error message: ', error.stack)
+    next(error)
   }
 })
 
 
 // POST
-router.post('/', async (req, res) => {
+router.post('/', async (req, res, next) => {
   const {
     body,
     isComplete,
@@ -36,55 +38,73 @@ router.post('/', async (req, res) => {
       edit: edit
     })
 
-    const result = await todo.save()
-    res.send(result)
+    const data = await todo.save()
+
+    if (!data) {
+      const error = new Error('Unable to add Todo')
+      error.status = 400
+      throw error
+    }
+
+    res.send({
+      msg: 'Todo added',
+    })
   } catch (error) {
-    console.log('POST error message: ', error.stack)
+    next(error)
   }
 })
 
 // DELETE
-router.delete('/', async (req, res) => {
+router.delete('/', async (req, res, next) => {
   const {
     _id
   } = req.body
 
   try {
-    const result = await Todo.findByIdAndDelete(_id)
+    const data = await Todo.findByIdAndDelete(_id)
 
-    if (!result) {
-      res.send({
-        msg: 'Nothing to delete...'
-      })
+    if (!data) {
+      const error = new Error('No todo exists with that _id')
+      error.status = 400
+      throw error
     }
 
     res.send({
-      msg: 'Todo deleted'
+      msg: 'Todo deleted',
     })
+
   } catch (error) {
-    console.log('DELETE error message: ', error.stack)
+    next(error)
   }
 })
 
 
 // PUT
-router.put('/', async (req, res) => {
+router.put('/', async (req, res, next) => {
   const {
     _id,
     isComplete
   } = req.body
 
   try {
-    const result = await Todo.findByIdAndUpdate(_id, {
+    const data = await Todo.findByIdAndUpdate(_id, {
       isComplete: isComplete
+    }, {
+      new: true
     })
-    res.send(result)
+
+    if (!data) {
+      const error = new Error('Unable to update todo with that _id')
+      error.status = 400
+      throw error
+    }
+
+    res.send({
+      msg: 'Todo updated',
+    })
   } catch (error) {
-    console.log('PUT error message: ', error.stack)
+    next(error)
   }
 })
-
-
-
 
 module.exports = router

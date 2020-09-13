@@ -58,12 +58,13 @@
 </template>
 
 <script>
-import { mapGetters, mapState, mapActions } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
 export default {
+  components: {},
   // LIFECYCLE HOOKS
   created() {
-    this.$store.dispatch("getTodos");
+    this.$store.dispatch("todos/getTodos");
   },
 
   data: () => ({
@@ -71,25 +72,25 @@ export default {
   }),
 
   computed: {
-    ...mapState(["todos"]),
-    ...mapGetters(["remainingTodos"]),
+    ...mapState({
+      todos: (state) => state.todos.todos,
+    }),
+    ...mapGetters("todos/", ["remainingTodos"]),
   },
 
   methods: {
-    ...mapActions(["deleteTodo"]),
-    //
     addTodo() {
       if (this.input === "") {
         return;
       }
 
-      const payload = {
+      const newTodo = {
         body: this.input,
         isComplete: false,
         edit: false,
       };
 
-      this.$store.dispatch("addTodo", payload);
+      this.$store.dispatch("todos/addTodo", newTodo);
       this.resetDOM();
     },
     deleteTodo(id) {
@@ -97,7 +98,7 @@ export default {
         _id: id,
       };
 
-      this.$store.dispatch("deleteTodo", payload);
+      this.$store.dispatch("todos/deleteTodo", payload);
     },
     markComplete(obj) {
       const updObj = {
@@ -107,7 +108,7 @@ export default {
         edit: obj.edit,
       };
 
-      this.$store.dispatch("markComplete", updObj);
+      this.$store.dispatch("todos/markComplete", updObj);
     },
     resetDOM() {
       this.input = "";
