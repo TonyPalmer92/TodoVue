@@ -90,9 +90,11 @@ router.delete("/all", async (req, res, next) => {
 router.put("/", async (req, res, next) => {
   const { _id, isComplete } = req.body;
 
+  console.log("PUT:", _id);
+
   try {
     const data = await Todo.findByIdAndUpdate(
-      _id,
+      { _id: _id },
       {
         isComplete: isComplete,
       },

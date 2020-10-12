@@ -116,6 +116,8 @@ export default {
         edit: obj.edit,
       };
 
+      console.log(updObj);
+
       this.$store.dispatch("todos/markComplete", updObj);
     },
     clearAll() {
