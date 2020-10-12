@@ -1,4 +1,4 @@
-l![Maintenance](https://img.shields.io/maintenance/yes/2021)
+![Maintenance](https://img.shields.io/maintenance/yes/2021)
 [![Website shields.io](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://todo-vue-live.herokuapp.com/)
 
 ## Todo Vue
@@ -7,12 +7,12 @@ l![Maintenance](https://img.shields.io/maintenance/yes/2021)
 
 ## Features
 
-This app is still in development and has many features I would like to implement. Please check the projects board.
+This app is still in development and has many features I would like to implement.
 
 - [x] Create a Todo
 - [x] Delete a Todo
 - [ ] Edit a Todo
-- [ ] Clear all Todos
+- [x] Clear all Todos
 - [ ] Acitivity alerts
 - [x] Remaining todos tracking
 

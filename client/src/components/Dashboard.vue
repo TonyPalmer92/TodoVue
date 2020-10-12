@@ -41,7 +41,7 @@
 
             <v-list-item-action>
               <v-btn icon @click="deleteTodo(todo._id)">
-                <v-icon color="red accent-3">mdi-delete</v-icon>
+                <v-icon color="error accent-1">mdi-delete</v-icon>
               </v-btn>
             </v-list-item-action>
           </v-list-item>
@@ -49,8 +49,16 @@
       </v-col>
 
       <v-col cols="12">
-        <v-footer color="blue lighten-1" dark rounded>
-          <div>{{ remainingTodos }} items remaining</div>
+        <v-footer color="blue lighten-1 justify-space-between" dark rounded>
+          <div>{{ remainingTodos }} items remainings</div>
+          <v-btn
+            v-if="todos.length > 0"
+            @click="clearAll"
+            x-small
+            color="error"
+          >
+            Clear all
+          </v-btn>
         </v-footer>
       </v-col>
     </v-row>
@@ -109,6 +117,9 @@ export default {
       };
 
       this.$store.dispatch("todos/markComplete", updObj);
+    },
+    clearAll() {
+      this.$store.dispatch("todos/clearAll");
     },
     resetDOM() {
       this.input = "";
