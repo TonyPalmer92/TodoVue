@@ -18,8 +18,9 @@ export default {
       context.commit("getTodos", result.data);
     },
     async addTodo(context, payload) {
-      await axios.post("/", payload);
-      context.commit("addTodo", payload);
+      const result = await axios.post("/", payload);
+      const todo = result.data;
+      context.commit("addTodo", todo);
     },
     async deleteTodo(context, payload) {
       await axios.delete("/", {

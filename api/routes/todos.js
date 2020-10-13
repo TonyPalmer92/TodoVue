@@ -38,9 +38,8 @@ router.post("/", async (req, res, next) => {
       throw error;
     }
 
-    res.send({
-      msg: "Todo added",
-    });
+    // send todo item back to client
+    res.status(200).send(data);
   } catch (error) {
     next(error);
   }
@@ -89,8 +88,6 @@ router.delete("/all", async (req, res, next) => {
 // PUT
 router.put("/", async (req, res, next) => {
   const { _id, isComplete } = req.body;
-
-  console.log("PUT:", _id);
 
   try {
     const data = await Todo.findByIdAndUpdate(
