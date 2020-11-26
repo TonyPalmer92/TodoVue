@@ -1,4 +1,3 @@
-![Maintenance](https://img.shields.io/maintenance/yes/2021)
 [![Website shields.io](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://todo-vue-live.herokuapp.com/)
 
 ## Todo Vue
